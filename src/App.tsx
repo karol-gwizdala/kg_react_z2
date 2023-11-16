@@ -1,31 +1,33 @@
-import useState from 'react';
+import { useState } from 'react';
 import './App.scss';
+import { Button, ButtonProps } from './components/Button';
+import { Quote, QuoteInterface, quote_list } from './components/Quote';
 
-
-
-interface Quote {
-  text: string,
-  authot: string
- }
-
-const quote_list = ["Ludzie budują za dużo murów, a za mało mostów.", "To smutne, że głupcy są tacy pewni siebie, a ludzie rozsądni tacy pełni wątpliwości.", "Rób, co możesz, w miejscu, jakim jesteś i z tym, co masz."]
-
-const Quote = () => {
-
-  // const [currentQuote, setCurrentQuote] = useState (Quote[0]);
-  
-  const handleGenerateQuoteClick = Math.floor(Math.random() * quote_list.length);
-  return (
-    <div>{quote_list[handleGenerateQuoteClick]}</div>
-  )
-
-}
 
 function App() {
+
+  const [currentQuote, setCurrentQuote] = useState<QuoteInterface>(quote_list[0]);
+
+  const handleGenerateQuoteClick = () => {
+
+    const randomIndex = Math.floor(Math.random() * quote_list.length);
+    setCurrentQuote(quote_list[randomIndex]);
+  }
+
+
+  const handleShareQuoteClick = () => {
+    console.log('Drawn quote is:', (currentQuote));
+
+  };
+
   return (
     <main className="main">
-      <Quote />
-      </main>
+      <Quote quote={currentQuote} />
+      <div>
+        <button onClick={handleGenerateQuoteClick} className='button button__generate' >Generate quote</button>
+        <button onClick={handleShareQuoteClick} className='button button__share' >Share quote</button>
+      </div>
+    </main>
   );
 }
 
